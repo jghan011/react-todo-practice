@@ -7,6 +7,20 @@ function App() {
   const [editItem, setEditItem] = React.useState(null);
   const [editText, setEditText] = React.useState("");
 
+  React.useEffect(() => {
+    const temp = localStorage.getItem("shoppingItemAccess");
+    const loadedItems = JSON.parse(temp);
+
+    if (loadedItems) {
+      setShoppingItems(loadedItems);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    const jsonTing = JSON.stringify(shoppingItems);
+    localStorage.setItem("shoppingItemAccess", jsonTing);
+  }, [shoppingItems]); //how we save the data inb to local
+
   //will run once when component is mounted right when page is loaded the code will be loaded basically. if you
   function handleSubmit(e) {
     e.preventDefault();
@@ -41,6 +55,7 @@ function App() {
     });
     setShoppingItems(submitItems);
     setEditItem(null);
+    setEditText("");
   }
   return (
     <div>
@@ -66,8 +81,11 @@ function App() {
             )}
 
             <button onClick={() => handleDelete(todo.id)}>delete</button>
-            <button onClick={() => setEditItem(todo.id)}>Edit</button>
-            <button onClick={() => submitItem(todo.id)}>Submit</button>
+            {editItem === todo.id ? (
+              <button onClick={() => submitItem(todo.id)}>Submit</button>
+            ) : (
+              <button onClick={() => setEditItem(todo.id)}>Edit</button>
+            )}
           </div>
         );
       })}
