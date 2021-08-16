@@ -14,7 +14,7 @@ function App() {
     if (loadedItems) {
       setShoppingItems(loadedItems);
     }
-  }, [shoppingTesttus]);
+  }, []);
 
   React.useEffect(() => {
     const jsonTing = JSON.stringify(shoppingItems);
